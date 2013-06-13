@@ -1,12 +1,18 @@
-require 'frank-cucumber'
+require 'frank-cucumber/console'
 require 'screen'
+require 'selector_builder'
+require 'multi_json'
 
+class Worm
 
-def initialize
-  @screen = Screen.new
-end
+  def initialize
+    Frank::Cucumber::FrankHelper.use_shelley_from_now_on
+  end
 
-def touch(label)
+  def press(label)
+    screen = Screen.new
+    Frank::Console.new.touch(SelectorBuilder.build(screen.view_class(label), label))
+  end
 
 end
 

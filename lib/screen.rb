@@ -1,6 +1,6 @@
 class Screen
 
-  def self.reload(screen_data = nil)
+  def initialize(screen_data = nil)
     if screen_data.nil?
       @screen_data = MultiJson.load(Frank::Cucumber::Gateway.new.send_get('dump'))
     else
@@ -9,7 +9,6 @@ class Screen
   end
 
   def all_views
-    reload
     add_views(@screen_data)
     @views
   end
