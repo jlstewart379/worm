@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Screen do
 
-  let(:json) {MultiJson.load('{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"subviews":[{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"testLabel","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIView"}],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIWindow"}')}
+  let(:json) {MultiJson.load('{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"subviews":[{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"testLabel","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIView"},{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"accessibilityLabel":"buttonLabel1","subviews":[],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIButton"}],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIWindow"}')}
   let(:server){Frank::Cucumber::Gateway.any_instance.stub(:send_get).with('dump').and_return(json)}
   let(:screen){ screen = Screen.new(json)}
 
@@ -20,10 +20,10 @@ describe Screen do
       screen.view_by_id(1).should == json
     end
     it 'can get a nested view by id' do
-      screen.view_by_id_with_data(json, 2).should == [{"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"testLabel", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UIView"}]
+      screen.view_by_id_with_data(json, 2).should == [{"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"testLabel", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UIView"}, {"frame"=>{"size"=>{"width"=>768, "height"=>1024}, "origin"=>{"x"=>0, "y"=>0}}, "uid"=>1, "backgroundColor"=>{}, "isHidden"=>0, "accessibilityLabel"=>"buttonLabel1", "subviews"=>[], "tag"=>0, "isKeyWindow"=>1, "accessibilityFrame"=>{}, "windowLevel"=>0, "alpha"=>1, "autoresizingMask"=>0, "class"=>"UIButton"}]
     end
     it 'can get a view by label' do
-      screen.view_by_label("testLabel").should == [{"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"testLabel", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UIView"}]
+      screen.view_by_label("testLabel").should == [{"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"testLabel", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UIView"}, {"frame"=>{"size"=>{"width"=>768, "height"=>1024}, "origin"=>{"x"=>0, "y"=>0}}, "uid"=>1, "backgroundColor"=>{}, "isHidden"=>0, "accessibilityLabel"=>"buttonLabel1", "subviews"=>[], "tag"=>0, "isKeyWindow"=>1, "accessibilityFrame"=>{}, "windowLevel"=>0, "alpha"=>1, "autoresizingMask"=>0, "class"=>"UIButton"}]
     end
   end
   context 'getting view properties by label' do
@@ -56,14 +56,16 @@ describe Screen do
     end
   end
   context 'getting view properties from raw json' do
-    it 'can get the class from the view data' do
+    it 'can get the class from raw view data' do
       screen.get_class(json1).should == "UIButton"
     end
+    it 'can get the accessibility label from raw view data' do
+      screen.get_label(json1).should == "buttonLabel1"
+    end
   end
-
-  #context 'getting all button elements' do
-  #  it 'can get a list of all the buttons on the screen' do
-  #    screen.button_labels.should == ["buttonLabel1"]
-  #  end
-  #end
+  context 'getting all view elements' do
+    it 'can get a list of all the buttons on the screen' do
+      screen.button_labels.should == ["buttonLabel1"]
+    end
+  end
 end

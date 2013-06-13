@@ -96,18 +96,19 @@ class Screen
     view_data["class"]
   end
 
-  #def button_labels
-  #  buttons = []
-  #  all_views.each do |view|
-  #
-  #    if get_class view
-  #
-  #    end
-  #
-  #
-  #  end
-  #
-  #end
+  def get_label(view_data)
+    view_data["accessibilityLabel"]
+  end
+
+  def button_labels
+    buttons = []
+    all_views.each do |view|
+      if get_class(view).include? 'Button'
+        buttons << get_label(view) unless get_label(view).nil?
+      end
+    end
+    buttons
+  end
 
   private
   def add_view(view)
