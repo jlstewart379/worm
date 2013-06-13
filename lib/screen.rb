@@ -100,7 +100,7 @@ class Screen
     view_data["accessibilityLabel"]
   end
 
-  def button_labels
+  def accessible_buttons
     buttons = []
     all_views.each do |view|
       if get_class(view).include? 'Button'
@@ -108,6 +108,16 @@ class Screen
       end
     end
     buttons
+  end
+
+  def accessible_text_fields
+    texts = []
+    all_views.each do |view|
+      if get_class(view).include? 'UITextField'
+        texts << get_label(view) unless get_label(view).nil?
+      end
+    end
+    texts
   end
 
   private
