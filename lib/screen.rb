@@ -92,6 +92,23 @@ class Screen
     view_by_label(label)[0]["accessibilityFrame"]["size"]["width"]
   end
 
+  def get_class(view_data)
+    view_data["class"]
+  end
+
+  #def button_labels
+  #  buttons = []
+  #  all_views.each do |view|
+  #
+  #    if get_class view
+  #
+  #    end
+  #
+  #
+  #  end
+  #
+  #end
+
   private
   def add_view(view)
     @views = [] unless @views

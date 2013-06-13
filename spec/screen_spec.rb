@@ -8,6 +8,10 @@ describe Screen do
   let(:server){Frank::Cucumber::Gateway.any_instance.stub(:send_get).with('dump').and_return(json)}
   let(:screen){ screen = Screen.new(json)}
 
+  let(:json1) {MultiJson.load('{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"accessibilityLabel":"buttonLabel1","subviews":[],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIButton"}')}
+  let(:server1){Frank::Cucumber::Gateway.any_instance.stub(:send_get).with('dump').and_return(json)}
+  let(:screen1){ screen = Screen.new(json)}
+
   context 'getting views' do
     it 'can get all the views' do
       screen.all_views.count == 2
@@ -51,4 +55,15 @@ describe Screen do
       screen.view_accessibility_height("testLabel") == 555
     end
   end
+  context 'getting view properties from raw json' do
+    it 'can get the class from the view data' do
+      screen.get_class(json1).should == "UIButton"
+    end
+  end
+
+  #context 'getting all button elements' do
+  #  it 'can get a list of all the buttons on the screen' do
+  #    screen.button_labels.should == ["buttonLabel1"]
+  #  end
+  #end
 end
