@@ -32,20 +32,33 @@ class Screen
 
   def view_by_label(label)
     view_by_label_with_data(@screen_data, label)
+    @found_view unless @found_view.nil?
   end
 
   def view_by_label_with_data(json,label)
+    #p 'evaluating new json'
+    #p 'json is'
+    #p json
     if json["accessibilityLabel"].eql? label
-      json
-    else
-      json["subviews"].each do |view|
-        view_by_label_with_data(view,label)
-      end
+        @found_view = json
+      else
+          if json["subviews"].count > 0
+            #p 'match not found'
+            #p 'json is'
+            #p json
+            #p 'subview count is'
+            #p json["subviews"].count
+            json["subviews"].each do |view|
+              #p 'subview found for subview count ' << json["subviews"].count.to_s
+              #p view
+          view_by_label_with_data(view,label)
+            end
+        end
     end
   end
 
   def view_class(label)
-    view_by_label(label)[0]["class"]
+    view_by_label(label)["class"]
   end
 
   def view_frame_width(label)
@@ -57,11 +70,11 @@ class Screen
   end
 
   def view_frame(label)
-    view_by_label(label)[0]["frame"]
+    view_by_label(label)["frame"]
   end
 
   def view_is_visible(label)
-    view_by_label(label)[0]["isHidden"] == 0
+    view_by_label(label)["isHidden"] == 0
   end
 
   def view_by_id(id)
@@ -69,11 +82,11 @@ class Screen
   end
 
   def view_x(label)
-    view_by_label(label)[0]["accessibilityFrame"]["origin"]["x"]
+    view_by_label(label)["accessibilityFrame"]["origin"]["x"]
   end
 
   def view_y(label)
-    view_by_label(label)[0]["accessibilityFrame"]["origin"]["y"]
+    view_by_label(label)["accessibilityFrame"]["origin"]["y"]
   end
 
   def view_origin(label)
@@ -81,15 +94,15 @@ class Screen
   end
 
   def view_tag(label)
-    view_by_label(label)[0]["tag"]
+    view_by_label(label)["tag"]
   end
 
   def view_accessibility_height(label)
-    view_by_label(label)[0]["accessibilityFrame"]["size"]["height"]
+    view_by_label(label)["accessibilityFrame"]["size"]["height"]
   end
 
   def view_accessibility_width(label)
-    view_by_label(label)[0]["accessibilityFrame"]["size"]["width"]
+    view_by_label(label)["accessibilityFrame"]["size"]["width"]
   end
 
   def get_class(view_data)

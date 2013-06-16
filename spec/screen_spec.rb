@@ -23,12 +23,18 @@ describe Screen do
       screen.view_by_id_with_data(json, 2).should == [{"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"testLabel", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UIView"}, {"frame"=>{"size"=>{"width"=>768, "height"=>1024}, "origin"=>{"x"=>0, "y"=>0}}, "uid"=>1, "backgroundColor"=>{}, "isHidden"=>0, "accessibilityLabel"=>"buttonLabel1", "subviews"=>[], "tag"=>0, "isKeyWindow"=>1, "accessibilityFrame"=>{}, "windowLevel"=>0, "alpha"=>1, "autoresizingMask"=>0, "class"=>"UIButton"}, {"frame"=>{"size"=>{"width"=>768, "height"=>1024}, "origin"=>{"x"=>0, "y"=>0}}, "uid"=>1, "backgroundColor"=>{}, "isHidden"=>0, "accessibilityLabel"=>"buttonLabel2", "subviews"=>[], "tag"=>0, "isKeyWindow"=>1, "accessibilityFrame"=>{}, "windowLevel"=>0, "alpha"=>1, "autoresizingMask"=>0, "class"=>"UIButton"}, {"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"textField1", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UITextField"}, {"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"textField2", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UITextField"}]
     end
     it 'can get a view by label' do
-      screen.view_by_label("testLabel").should == [{"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"testLabel", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UIView"}, {"frame"=>{"size"=>{"width"=>768, "height"=>1024}, "origin"=>{"x"=>0, "y"=>0}}, "uid"=>1, "backgroundColor"=>{}, "isHidden"=>0, "accessibilityLabel"=>"buttonLabel1", "subviews"=>[], "tag"=>0, "isKeyWindow"=>1, "accessibilityFrame"=>{}, "windowLevel"=>0, "alpha"=>1, "autoresizingMask"=>0, "class"=>"UIButton"}, {"frame"=>{"size"=>{"width"=>768, "height"=>1024}, "origin"=>{"x"=>0, "y"=>0}}, "uid"=>1, "backgroundColor"=>{}, "isHidden"=>0, "accessibilityLabel"=>"buttonLabel2", "subviews"=>[], "tag"=>0, "isKeyWindow"=>1, "accessibilityFrame"=>{}, "windowLevel"=>0, "alpha"=>1, "autoresizingMask"=>0, "class"=>"UIButton"}, {"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"textField1", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UITextField"}, {"frame"=>{"size"=>{"width"=>148, "height"=>888}, "origin"=>{"x"=>20, "y"=>0}}, "uid"=>2, "backgroundColor"=>"<NON-RGB COLOR>", "isHidden"=>0, "accessibilityLabel"=>"textField2", "subviews"=>[], "tag"=>0, "accessibilityFrame"=>{"size"=>{"width"=>444, "height"=>555}, "origin"=>{"x"=>20, "y"=>0}}, "alpha"=>1, "autoresizingMask"=>36, "class"=>"UITextField"}]
+      screen.view_by_label("testLabel").should == MultiJson.load('{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"testLabel","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIView"}')
+    end
+    it 'can get a nested view by label' do
+      screen.view_by_label('buttonLabel1').should == MultiJson.load('{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"accessibilityLabel":"buttonLabel1","subviews":[],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIButton"}')
     end
   end
   context 'getting view properties by label' do
     it 'can get the view class' do
       screen.view_class("testLabel").should == "UIView"
+    end
+    it 'can get the nested view class' do
+      screen.view_class("textField1").should == "UITextField"
     end
     it 'can get the view width' do
       screen.view_frame_width("testLabel").should == 148
@@ -72,6 +78,18 @@ describe Screen do
       screen.accessible_text_fields.should == ["textField1", "textField2"]
     end
   end
+
+  #context 'getting view data from ' do
+  #
+  #  it 'can parse json to find view data' do
+  #  screen.view_by_label_with_data(json, 'testLabel').should == MultiJson.load('{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"testLabel","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIView"}');
+  #  end
+  #  #it 'can parse json to find nested view data' do
+  #  #  screen.view_by_label_with_data(json, 'buttonLabel1').should == MultiJson.load('{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"buttonLabel1","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIButton"}');
+  #  #end
+  #
+  #
+  #end
 end
 
 
