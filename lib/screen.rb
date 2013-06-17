@@ -36,24 +36,14 @@ class Screen
   end
 
   def view_by_label_with_data(json,label)
-    #p 'evaluating new json'
-    #p 'json is'
-    #p json
     if json["accessibilityLabel"].eql? label
         @found_view = json
       else
           if json["subviews"].count > 0
-            #p 'match not found'
-            #p 'json is'
-            #p json
-            #p 'subview count is'
-            #p json["subviews"].count
             json["subviews"].each do |view|
-              #p 'subview found for subview count ' << json["subviews"].count.to_s
-              #p view
-          view_by_label_with_data(view,label)
-            end
-        end
+            view_by_label_with_data(view,label)
+          end
+      end
     end
   end
 
