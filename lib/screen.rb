@@ -123,6 +123,16 @@ class Screen
     texts
   end
 
+  def accessible_labels
+    labels = []
+    all_views.each do |view|
+      if get_class(view).include 'Label'
+        labels << get_label(view) unless get_label(view).nil?
+      end
+    end
+    labels
+  end
+
   private
   def add_view(view)
     @views = [] unless @views

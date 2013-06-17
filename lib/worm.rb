@@ -1,9 +1,11 @@
 require 'frank-cucumber/console'
+require 'frank-cucumber/frank_helper'
 require 'screen'
 require 'selector_builder'
 require 'multi_json'
 
 class Worm
+  include Frank::Cucumber::FrankHelper
 
   def initialize
     Frank::Cucumber::FrankHelper.use_shelley_from_now_on
@@ -22,6 +24,10 @@ class Worm
     Screen.new.accessible_text_fields
   end
 
+  def labels
+    Screen.new.accessible_labels
+  end
+
   def insert(text, label)
     screen = Screen.new
     Frank::Console.new.touch(SelectorBuilder.build(screen.view_class(label), text))
@@ -29,6 +35,14 @@ class Worm
 
   def type(text)
     Frank::Console.new.type_into_keyboard(text)
+  end
+
+  def landscape
+    frankly_set_orientation('landscape')
+  end
+
+  def portrait
+    frankly_set_orientation('portrait')
   end
 
 end
