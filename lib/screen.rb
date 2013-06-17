@@ -126,7 +126,7 @@ class Screen
   def accessible_labels
     labels = []
     all_views.each do |view|
-      if get_class(view).include 'Label'
+      if get_class(view).include? 'Label'
         labels << get_label(view) unless get_label(view).nil?
       end
     end
