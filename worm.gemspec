@@ -8,8 +8,5 @@ Gem::Specification.new do |s|
   s.files = ["lib/worm.rb",]
   s.test_files = ["spec/selector_builder_spec.rb","spec/screen_spec.rb" ]
   s.require_paths = ["lib"]
-  s.summary = %q{iOS app driver for irb using Frank}
-
-  gem.add_development_dependency 'rspec'
-
+  s.summary = 'iOS app driver for irb using Frank'
 end

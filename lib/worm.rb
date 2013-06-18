@@ -36,7 +36,7 @@ class Worm
     Screen.new.accessible_tables
   end
 
-  def insert(text, label)
+  def set_text(text, label)
     screen = Screen.new
     Frank::Console.new.touch(SelectorBuilder.build(screen.view_class(label), text))
   end
@@ -53,6 +53,9 @@ class Worm
     frankly_set_orientation('portrait')
   end
 
+  def touch_alert(button)
+    touch("view:'UIAlertButton' marked:'#{button}'")
+  end
 end
 
 
