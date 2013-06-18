@@ -20,31 +20,16 @@ class Screen
     end
   end
 
-  def view_by_id_with_data(json, id)
-    if json["uid"].eql?(id)
-      json
-    else
-      json["subviews"].each do |view|
-        view_by_id_with_data(view, id)
-      end
-    end
+  def view_by_id(id)
+    @found_view = nil
+    view_by_id_with_data(@screen_data, id)
+    @found_view
   end
 
   def view_by_label(label)
+    @found_view = nil
     view_by_label_with_data(@screen_data, label)
-    @found_view unless @found_view.nil?
-  end
-
-  def view_by_label_with_data(json,label)
-    if json["accessibilityLabel"].eql? label
-        @found_view = json
-      else
-          if json["subviews"].count > 0
-            json["subviews"].each do |view|
-            view_by_label_with_data(view,label)
-          end
-      end
-    end
+    @found_view
   end
 
   def view_class(label)
@@ -65,10 +50,6 @@ class Screen
 
   def view_is_visible(label)
     view_by_label(label)["isHidden"] == 0
-  end
-
-  def view_by_id(id)
-    view_by_id_with_data(@screen_data, id)
   end
 
   def view_x(label)
@@ -123,6 +104,16 @@ class Screen
     texts
   end
 
+  def accessible_tables
+    tables = []
+    all_views.each do |view|
+      if get_class(view).include? 'TableView'
+        tables << get_label(view) unless get_label(view).nil?
+      end
+    end
+    tables
+  end
+
   def accessible_labels
     labels = []
     all_views.each do |view|
@@ -137,5 +128,29 @@ class Screen
   def add_view(view)
     @views = [] unless @views
     @views << view
+  end
+
+  def view_by_id_with_data(json,id)
+    if json["uid"] == id
+      @found_view = json
+    else
+      if json["subviews"].count > 0
+        json["subviews"].each do |view|
+          view_by_id_with_data(view,id)
+        end
+      end
+    end
+  end
+
+  def view_by_label_with_data(json,label)
+    if json["accessibilityLabel"].eql? label
+      @found_view = json
+    else
+      if json["subviews"].count > 0
+        json["subviews"].each do |view|
+          view_by_label_with_data(view,label)
+        end
+      end
+    end
   end
 end

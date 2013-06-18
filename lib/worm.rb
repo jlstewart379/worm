@@ -11,6 +11,10 @@ class Worm
     Frank::Cucumber::FrankHelper.use_shelley_from_now_on
   end
 
+  def use_physical
+    Frank::Cucumber::FrankHelper.test_on_physical_device_via_bonjour
+  end
+
   def press(label)
     screen = Screen.new
     Frank::Console.new.touch(SelectorBuilder.build(screen.view_class(label), label))
@@ -26,6 +30,10 @@ class Worm
 
   def labels
     Screen.new.accessible_labels
+  end
+
+  def tables
+    Screen.new.accessible_tables
   end
 
   def insert(text, label)
