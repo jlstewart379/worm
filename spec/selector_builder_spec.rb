@@ -8,5 +8,9 @@ describe SelectorBuilder do
       label = 'testLabel'
       SelectorBuilder.build(type, label).should == "view:'UILabel' marked:'testLabel'"
     end
+
+    it 'can build a selector for selecting a table index' do
+      SelectorBuilder.table_index('tableView', 0).should == "view:'UITableView' marked:'tableView' tableViewCell index:0"
+    end
   end
 end
