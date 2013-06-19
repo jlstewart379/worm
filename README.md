@@ -25,7 +25,9 @@ Since worm is merely a Frank wrapper you must have a Frankified app to drive. Af
 
 > 'frank launch' 
 
-to launch you iOS application in the iOS simulator, open the terminal and start irb. 
+to launch you iOS application in the iOS simulator. 
+
+Open the terminal and start irb. 
 
 Type:
 
