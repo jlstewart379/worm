@@ -19,7 +19,12 @@ Further README contents
 -------------------------
 > gem install worm
 
-Since worm is merely a Frank wrapper you must have a Frankified app to drive. After issuing the Frank commands 'frank build' and 'frank launch' to launch you iOS application in the iOS simulator, open the terminal and start irb. 
+Since worm is merely a Frank wrapper you must have a Frankified app to drive. After issuing the Frank commands 
+
+> 'frank build'
+> 'frank launch' 
+
+to launch you iOS application in the iOS simulator, open the terminal and start irb. 
 
 Type:
 
