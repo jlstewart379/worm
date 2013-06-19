@@ -56,6 +56,11 @@ class Worm
   def touch_alert(button)
     touch("view:'UIAlertButton' marked:'#{button}'")
   end
+
+  def selector(label)
+    screen = Screen.new
+    SelectorBuilder.build(screen.view_class(label), label)
+  end
 end
 
 
