@@ -3,7 +3,7 @@ worm
 
 -------------------------------------------------
 - README file for Worm -
-- Last changes: 2013-06-18                      -
+- Last changes: 2013-06-18
 -------------------------------------------------
 
 Description
@@ -18,27 +18,26 @@ Further README contents
  
 1. Installation and Setup
 -------------------------
-
-- gem install worm
+> gem install worm
 
 Since worm is merely a Frank wrapper you must have a Frankified app to drive. After issuing the Frank commands 'frank build' and 'frank launch' to launch you iOS application in the iOS simulator, open the terminal and start irb. 
 
 Type:
 
-require 'worm'
+> require 'worm'
 
-worm = Worm.new
+> worm = Worm.new
 
 2. Example Commands
 ------------------------
 
-worm.buttons #returns a list of all the buttons on the current screen accessible by accessibilityLabel
+worm.buttons     #returns a list of all the buttons on the current screen accessible by accessibilityLabel
 
-worm.labels #returns a list of all the labels currently accessible by accessibilityLabel
+worm.labels     #returns a list of all the labels currently accessible by accessibilityLabel
 
-worm.press 'label' #touches a UI element by accessibilityLabel
+worm.press 'label'     #touches a UI element by accessibilityLabel
 
-worm.type 'label' 'words'  #types the inputted string into the accessible text field  accessibilityLabel 
+worm.type 'label' 'words'     #types the inputted string into the accessible text field  accessibilityLabel 
 
 
 3. Contribute
@@ -46,7 +45,10 @@ worm.type 'label' 'words'  #types the inputted string into the accessible text f
 
 If you're awesome enough to want to contribute
 
--fork it
--clone it
--push to a feature branch
--submit pull request
+- fork it
+
+- clone it
+
+- push to a feature branch
+
+- submit pull request
