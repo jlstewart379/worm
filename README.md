@@ -15,7 +15,7 @@ Further README contents
   1. Installation and setup
   2. Example Commands
   3. Contribute
- 
+
 1. Installation and Setup
 -------------------------
 > gem install worm
