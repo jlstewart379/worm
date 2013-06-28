@@ -36,6 +36,11 @@ class Worm
     Screen.new.accessible_tables
   end
 
+  def table_at(label, index)
+    screen = Screen.new
+    Frank::Console.new.touch(SelectorBuilder.table_index label, index)
+  end
+
   def set_text(text, label)
     screen = Screen.new
     Frank::Console.new.touch(SelectorBuilder.build(screen.view_class(label), text))
