@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Screen do
 
-  let(:json) {MultiJson.load('{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"subviews":[{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":44,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"testLabel","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIView"},{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"accessibilityLabel":"buttonLabel1","subviews":[],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIButton"},{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"accessibilityLabel":"buttonLabel2","subviews":[],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIButton"},{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"textField1","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UITextField"},{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"textField2","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UITextField"}],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIWindow"}')}
+  let(:json) {MultiJson.load('{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"subviews":[{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":44,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"testLabel","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIView"},{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"accessibilityLabel":"buttonLabel1","subviews":[],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIButton"},{"frame":{"size":{"width":768,"height":1024},"origin":{"x":0,"y":0}},"uid":1,"backgroundColor":{},"isHidden":0,"accessibilityLabel":"buttonLabel2","subviews":[],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIButton"},{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"textField1","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UITextField"},{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"textField2","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UITextField"},{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"imageView1","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIImageView"},{"frame":{"size":{"width":148,"height":888},"origin":{"x":20,"y":0}},"uid":2,"backgroundColor":"<NON-RGB COLOR>","isHidden":0,"accessibilityLabel":"imageView2","subviews":[],"tag":0,"accessibilityFrame":{"size":{"width":444,"height":555},"origin":{"x":20,"y":0}},"alpha":1,"autoresizingMask":36,"class":"UIImageView"}],"tag":0,"isKeyWindow":1,"accessibilityFrame":{},"windowLevel":0,"alpha":1,"autoresizingMask":0,"class":"UIWindow"}')}
   let(:server){Frank::Cucumber::Gateway.any_instance.stub(:send_get).with('dump').and_return(json)}
   let(:screen){ screen = Screen.new(json)}
 
@@ -69,13 +69,17 @@ describe Screen do
       screen.get_label(json1).should == "buttonLabel1"
     end
   end
-  context 'getting all view elements' do
+  context 'getting all view elements by type' do
     it 'can get a list of all the buttons on the screen' do
       screen.accessible_buttons.should == ["buttonLabel1", "buttonLabel2"]
     end
 
     it 'can get a list of all the text fields' do
       screen.accessible_text_fields.should == ["textField1", "textField2"]
+    end
+
+    it 'can get all the accessible images' do
+      screen.accessible_images.should == ["imageView1", "imageView2"]
     end
   end
 end

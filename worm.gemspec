@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.summary = 'An irb driver for Frankified apps'
   s.homepage = 'https://github.com/jlstewart379/worm.git'
 
-  s.add_dependency 'frank-cucumber', '~> 1.1.8'
+  s.add_dependency 'frank-cucumber'
+  s.add_dependency 'i18n', '~> 0.6.1'
   s.add_development_dependency 'rspec'
 end

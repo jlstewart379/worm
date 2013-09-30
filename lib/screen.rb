@@ -124,6 +124,16 @@ class Screen
     labels
   end
 
+  def accessible_images
+    images = []
+    all_views.each do |view|
+      if get_class(view).include? 'ImageView'
+        images << get_label(view) unless get_label(view).nil?
+      end
+    end
+    images
+  end
+
   private
   def add_view(view)
     @views = [] unless @views
